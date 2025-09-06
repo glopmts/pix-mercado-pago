@@ -69,6 +69,7 @@ src/
 
 
 📡 Endpoints da API
+
 1. Health Check
 GET /health
 
@@ -82,6 +83,7 @@ json
   "timestamp": "2023-12-01T12:00:00.000Z",
   "service": "Mercado Pago API Service"
 }
+
 2. Criar Pagamento PIX
 POST /api/payments/pix
 
@@ -122,6 +124,7 @@ json
   },
   "message": "Pagamento PIX criado com sucesso"
 }
+
 3. Verificar Status do Pagamento
 GET /api/payments/status/:id
 
@@ -144,6 +147,7 @@ json
   },
   "message": "Status do pagamento obtido com sucesso"
 }
+
 4. Webhook do Mercado Pago
 POST /api/payments/mercado-pago/webhook
 
@@ -170,8 +174,10 @@ json
   "paymentId": "1234567890",
   "status": "approved"
 }
+
 💻 Exemplos de Uso
 Exemplo Frontend (React/Next.js)
+
 typescript
 // Criar pagamento PIX
 const createPixPayment = async (items: any[], total: number, user: any) => {
@@ -205,6 +211,7 @@ const createPixPayment = async (items: any[], total: number, user: any) => {
 };
 
 // Verificar status do pagamento
+
 const checkPaymentStatus = async (paymentId: string) => {
   try {
     const response = await fetch(`/api/payments/status/${paymentId}`);
@@ -220,7 +227,9 @@ const checkPaymentStatus = async (paymentId: string) => {
     throw error;
   }
 };
+
 Exemplo Backend (Controller)
+
 typescript
 // paymentController.ts - Exemplo simplificado
 export async function createPixPayment(req: Request, res: Response) {
@@ -268,7 +277,9 @@ export async function createPixPayment(req: Request, res: Response) {
     });
   }
 }
+
 🚨 Tratamento de Erros
+
 Exemplos de Respostas de Erro
 400 - Bad Request:
 
@@ -302,7 +313,9 @@ json
   "message": "Erro no processamento do pagamento",
   "details": "Timeout ao conectar com Mercado Pago"
 }
+
 🔄 Fluxo de Pagamento Completo
+
 Frontend → Cria pagamento via POST /api/payments/pix
 
 API → Gera QR Code PIX no Mercado Pago
@@ -320,6 +333,7 @@ API → Envia email de confirmação (opcional)
 Frontend → Verifica status via GET /api/payments/status/:id
 
 🚀 Deploy
+
 Comandos de Build
 bash
 # Desenvolvimento
@@ -339,17 +353,35 @@ PORT=5001
 NODE_ENV=production
 Deploy na Vercel
 json
+
 // vercel.json
 {
   "version": 2,
-  "builds": [{ "src": "dist/index.js", "use": "@vercel/node" }],
-  "routes": [{ "src": "/(.*)", "dest": "dist/index.js" }],
-  "env": {
-    "MERCADO_PAGO_ACCESS_TOKEN": "@mercado_pago_access_token",
-    "BASE_URL": "https://seusite.com"
+  "builds": [
+    {
+      "src": "dist/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/dist/index.js"
+    }
+  ],
+  "build": {
+    "env": {
+      "PRISMA_GENERATE": "true"
+    }
   }
 }
+
 📊 Monitoramento
+
 Health Check
 bash
 curl https://seusite.com/health
@@ -362,6 +394,7 @@ bash
 # Log de erro
 [ERROR] 2023-12-01T12:00:00.000Z - GET /api/payments/status/invalid_id - 404
 [ERROR] Pagamento não encontrado: invalid_id
+
 🛡️ Segurança
 Boas Práticas
 Valide sempre os dados de entrada
@@ -375,11 +408,13 @@ Valide assinaturas de webhook
 Gerencie corretamente as chaves de API
 
 Validação de Webhook
+
 typescript
 function validateWebhookSignature(signature: string, payload: any): boolean {
   // Implemente a validação conforme documentação do Mercado Pago
   return signature.startsWith('sha1=');
 }
+
 📞 Suporte
 Solução de Problemas Comuns
 Erro de Autenticação
@@ -398,10 +433,12 @@ Timeout nas Requisições
 
 typescript
 // Aumente o timeout se necessário
+
 const client = new MercadoPagoConfig({
   accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN,
   options: { timeout: 15000 }
 });
+
 Recursos Úteis
 Documentação Mercado Pago
 
