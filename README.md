@@ -446,10 +446,12 @@ Dashboard Mercado Pago
 
 Webhook Tester
 
-📄 Licença
+```
+
+## 📄 Licença
+
 Este projeto está sob a licença MIT. Veja o arquivo LICENSE para detalhes.
 
 Nota: Esta documentação assume que você já configurou corretamente as credenciais do Mercado Pago e possui uma conta ativa.
 
 Para dúvidas ou problemas, consulte a documentação oficial do Mercado Pago ou abra uma issue no repositório do projeto.
-```
