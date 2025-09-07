@@ -21,13 +21,13 @@ API completa para integração com Mercado Pago PIX utilizando Node.js e TypeScr
 
 ### Pré-requisitos
 
-```bash
+
 Node.js 16+
 npm ou yarn
 
 Comandos de Instalação
 # Clone o projeto
-git clone <seu-repositorio>
+git clone [<seu-repositorio>](https://github.com/glopmts/pix-mercado-pago)
 cd pix-mercado-pago
 
 # Instale as dependências
@@ -50,7 +50,7 @@ MERCADO_PAGO_WEBHOOK_SECRET=""
 # urls como http://locallhost:3003 não funciona a validação hook
 BASE_URL="https://meusite.com"
 
-
+```
 📁 Estrutura do Projeto
 
 src/
@@ -66,7 +66,7 @@ src/
 ├── types/
 │   └── index.ts               # Tipos TypeScript
 └── index.ts                   # Ponto de entrada
-
+```
 
 📡 Endpoints da API
 
@@ -89,7 +89,7 @@ POST /api/payments/pix
 
 Request:
 
-bash
+```
 curl -X POST http://localhost:5001/api/payments/pix \
   -H "Content-Type: application/json" \
   -d '{
@@ -124,12 +124,12 @@ json
   },
   "message": "Pagamento PIX criado com sucesso"
 }
-
+```
 3. Verificar Status do Pagamento
 GET /api/payments/status/:id
 
 Request:
-
+```
 bash
 curl -X GET http://localhost:5001/api/payments/status/1234567890
 Response (200 OK):
@@ -147,12 +147,12 @@ json
   },
   "message": "Status do pagamento obtido com sucesso"
 }
-
+```
 4. Webhook do Mercado Pago
 POST /api/payments/mercado-pago/webhook
 
 Payload (Mercado Pago):
-
+```
 json
 {
   "action": "payment.updated",
@@ -174,12 +174,13 @@ json
   "paymentId": "1234567890",
   "status": "approved"
 }
-
+```
 💻 Exemplos de Uso
 Exemplo Frontend (React/Next.js)
 
 typescript
 // Criar pagamento PIX
+```
 const createPixPayment = async (items: any[], total: number, user: any) => {
   try {
     const response = await fetch('/api/payments/pix', {
@@ -209,9 +210,9 @@ const createPixPayment = async (items: any[], total: number, user: any) => {
     throw error;
   }
 };
-
+```
 // Verificar status do pagamento
-
+```
 const checkPaymentStatus = async (paymentId: string) => {
   try {
     const response = await fetch(`/api/payments/status/${paymentId}`);
@@ -227,11 +228,12 @@ const checkPaymentStatus = async (paymentId: string) => {
     throw error;
   }
 };
-
+```
 Exemplo Backend (Controller)
 
 typescript
 // paymentController.ts - Exemplo simplificado
+```
 export async function createPixPayment(req: Request, res: Response) {
   try {
     const { items, email, userId, total } = req.body;
@@ -277,12 +279,12 @@ export async function createPixPayment(req: Request, res: Response) {
     });
   }
 }
-
+```
 🚨 Tratamento de Erros
 
 Exemplos de Respostas de Erro
 400 - Bad Request:
-
+```
 json
 {
   "success": false,
@@ -296,7 +298,8 @@ json
   }
 }
 404 - Not Found:
-
+```
+```
 json
 {
   "success": false,
@@ -305,7 +308,8 @@ json
   "paymentId": "1234567890"
 }
 500 - Internal Server Error:
-
+```
+```
 json
 {
   "success": false,
@@ -313,6 +317,7 @@ json
   "message": "Erro no processamento do pagamento",
   "details": "Timeout ao conectar com Mercado Pago"
 }
+```
 
 🔄 Fluxo de Pagamento Completo
 
@@ -355,6 +360,7 @@ Deploy na Vercel
 json
 
 // vercel.json
+```
 {
   "version": 2,
   "builds": [
@@ -379,7 +385,7 @@ json
     }
   }
 }
-
+```
 📊 Monitoramento
 
 Health Check
@@ -388,13 +394,14 @@ curl https://seusite.com/health
 Logs de Exemplo
 bash
 # Log de sucesso
+```
 [INFO] 2023-12-01T12:00:00.000Z - POST /api/payments/pix - 201
 [INFO] Pagamento PIX criado: 1234567890
 
 # Log de erro
 [ERROR] 2023-12-01T12:00:00.000Z - GET /api/payments/status/invalid_id - 404
 [ERROR] Pagamento não encontrado: invalid_id
-
+```
 🛡️ Segurança
 Boas Práticas
 Valide sempre os dados de entrada
@@ -410,11 +417,12 @@ Gerencie corretamente as chaves de API
 Validação de Webhook
 
 typescript
+```
 function validateWebhookSignature(signature: string, payload: any): boolean {
   // Implemente a validação conforme documentação do Mercado Pago
   return signature.startsWith('sha1=');
 }
-
+```
 📞 Suporte
 Solução de Problemas Comuns
 Erro de Autenticação
@@ -426,19 +434,20 @@ Webhook Não Funcionando
 
 bash
 # Verifique a URL configurada
+```
 curl -X POST https://seusite.com/api/payments/mercado-pago/webhook \
   -H "Content-Type: application/json" \
   -d '{"test": "payload"}'
 Timeout nas Requisições
-
+```
 typescript
 // Aumente o timeout se necessário
-
+```
 const client = new MercadoPagoConfig({
   accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN,
   options: { timeout: 15000 }
 });
-
+```
 Recursos Úteis
 Documentação Mercado Pago
 
@@ -446,7 +455,6 @@ Dashboard Mercado Pago
 
 Webhook Tester
 
-```
 
 ## 📄 Licença
 
